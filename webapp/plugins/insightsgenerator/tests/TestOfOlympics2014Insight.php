@@ -35,7 +35,7 @@ require_once THINKUP_WEBAPP_PATH.'_lib/extlib/simpletest/web_tester.php';
 require_once THINKUP_ROOT_PATH. 'webapp/plugins/insightsgenerator/model/class.InsightPluginParent.php';
 require_once THINKUP_ROOT_PATH. 'webapp/plugins/insightsgenerator/insights/olympics2014.php';
 
-class TestOfOlympics2014Insight extends ThinkUpUnitTestCase {
+class TestOfOlympics2014Insight extends ThinkUpInsightUnitTestCase {
 
     public function setUp(){
         parent::setUp();
@@ -63,9 +63,7 @@ class TestOfOlympics2014Insight extends ThinkUpUnitTestCase {
         $instance->id = 2;
         $instance->network_username = 'Johnny Carson';
         $instance->network = 'facebook';
-
-        $insight_builder = FixtureBuilder::build('insights', array('id'=>30, 'instance_id'=>2,
-        'slug'=> 'olympics_2014', 'date'=>date ('Y-m-d') ));
+        $builders = self::setUpPublicInsight($instance);
 
         $posts = array();
         $posts[] = new Post(array(
@@ -87,6 +85,15 @@ class TestOfOlympics2014Insight extends ThinkUpUnitTestCase {
         $this->assertEqual('Johnny Carson mentioned the Olympics already and the games are just getting started!',
             $result->text);
         $this->assertEqual('https://pbs.twimg.com/media/Bf5LVvHCMAEwdC0.jpg:large', $result->header_image);
+
+        $controller = new InsightStreamController();
+        $_GET['u'] = 'Johnny Carson';
+        $_GET['n'] = 'facebook';
+        $_GET['d'] = date ('Y-m-d');
+        $_GET['s'] = 'olympics_2014';
+        $results = $controller->go();
+        //output this to an HTML file to see the insight fully rendered
+        $this->debug($results);
     }
 
     public function testOlympic2014MultipleEventReferences() {
@@ -95,9 +102,7 @@ class TestOfOlympics2014Insight extends ThinkUpUnitTestCase {
         $instance->id = 2;
         $instance->network_username = 'Johnny Carson';
         $instance->network = 'facebook';
-
-        $insight_builder = FixtureBuilder::build('insights', array('id'=>30, 'instance_id'=>2,
-        'slug'=> 'olympics_2014', 'date'=>date ('Y-m-d') ));
+        $builders = self::setUpPublicInsight($instance);
 
         $posts = array();
         $posts[] = new Post(array(
@@ -127,6 +132,14 @@ class TestOfOlympics2014Insight extends ThinkUpUnitTestCase {
         $this->assertEqual('Johnny Carson mentioned the Olympics 4 times and the games are just getting started!',
             $result->text);
         $this->assertEqual('https://pbs.twimg.com/media/Bf5LVvHCMAEwdC0.jpg:large', $result->header_image);
-    }
 
+        $controller = new InsightStreamController();
+        $_GET['u'] = 'Johnny Carson';
+        $_GET['n'] = 'facebook';
+        $_GET['d'] = date ('Y-m-d') ;
+        $_GET['s'] = 'olympics_2014';
+        $results = $controller->go();
+        //output this to an HTML file to see the insight fully rendered
+        $this->debug($results);
+    }
 }

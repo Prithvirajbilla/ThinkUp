@@ -31,7 +31,7 @@ require_once dirname(__FILE__) . '/init.tests.php';
 require_once THINKUP_WEBAPP_PATH.'_lib/extlib/simpletest/autorun.php';
 require_once THINKUP_WEBAPP_PATH.'config.inc.php';
 
-class TestOfInsightAPIController extends ThinkUpUnitTestCase {
+class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
 
     public function setUp() {
         parent::setUp();
@@ -763,7 +763,8 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
             'instance_id'=>'1',
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
-            'time_generated'=>$time_now));
+            'time_generated'=>$time_now,
+            'related_data'=>self::getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-02',
@@ -771,7 +772,8 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
             'instance_id'=>'1',
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
-            'time_generated'=>$time_now));
+            'time_generated'=>$time_now,
+            'related_data'=>self::getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-03',
@@ -779,7 +781,8 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
             'instance_id'=>'1',
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
-            'time_generated'=>$time_now));
+            'time_generated'=>$time_now,
+            'related_data'=>self::getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-04',
@@ -787,7 +790,8 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
             'instance_id'=>'1',
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
-            'time_generated'=>$time_now));
+            'time_generated'=>$time_now,
+            'related_data'=>self::getRelatedDataListOfPosts()));
 
         return $builders;
     }
@@ -799,11 +803,12 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
         $controller = new InsightAPIController(true);
         $output = $controller->go();
         $this->debug( Utils::varDumpToString($output));
-        $output = json_decode($output);
+        $output = JSONDecoder::decode($output);
 
-        $this->debug($output);
+        $this->debug(Utils::varDumpToString($output));
         // Test correct number of insights were retrieved
         $this->assertEqual(count($output), 4);
+        $this->assertEqual(count($output[0]->related_data->posts), 3);
     }
 
     public function testAPIDisabled() {
@@ -835,9 +840,10 @@ class TestOfInsightAPIController extends ThinkUpUnitTestCase {
         $controller = new InsightAPIController(true);
         $output = $controller->go();
         $this->debug($output);
-        $output = json_decode($output);
+        $output = JSONDecoder::decode($output);
 
         $this->assertFalse(isset($output->error));
+        $this->assertEqual(count($output[0]->related_data->posts), 3);
     }
 
     public function testAPIAuth() {

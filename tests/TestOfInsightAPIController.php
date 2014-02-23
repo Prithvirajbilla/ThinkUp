@@ -44,7 +44,7 @@ class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
         parent::tearDown();
     }
 
-    protected static function buildData() {
+    protected function buildData() {
         $builders = array();
 
         $hashed_pass = ThinkUpTestLoginHelper::hashPasswordUsingDeprecatedMethod("oldpassword");
@@ -764,7 +764,7 @@ class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
             'time_generated'=>$time_now,
-            'related_data'=>self::getRelatedDataListOfPosts()));
+            'related_data'=>$this->getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-02',
@@ -773,7 +773,7 @@ class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
             'time_generated'=>$time_now,
-            'related_data'=>self::getRelatedDataListOfPosts()));
+            'related_data'=>$this->getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-03',
@@ -782,7 +782,7 @@ class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
             'time_generated'=>$time_now,
-            'related_data'=>self::getRelatedDataListOfPosts()));
+            'related_data'=>$this->getRelatedDataListOfPosts()));
 
         $builders[] = FixtureBuilder::build('insights', array(
             'date'=>'2012-05-04',
@@ -791,7 +791,7 @@ class TestOfInsightAPIController extends ThinkUpInsightUnitTestCase {
             'text'=>'Retweet spike! Your post got retweeted 110 times',
             'emphasis'=>Insight::EMPHASIS_HIGH,
             'time_generated'=>$time_now,
-            'related_data'=>self::getRelatedDataListOfPosts()));
+            'related_data'=>$this->getRelatedDataListOfPosts()));
 
         return $builders;
     }

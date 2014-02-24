@@ -1,19 +1,19 @@
 tools:
     php_code_sniffer: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]
 	php_cs_fixer: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]
 	php_hhvm: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]
 	php_pdepend: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]
     php_analyzer: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]
  	sensiolabs_security_checker: true
     	filter:
-    		excluded_paths: [webapp/extlibs/*, extras/*, docs/*]
+    		excluded_paths: [webapp/_lib/extlib/*, extras/*, docs/*]

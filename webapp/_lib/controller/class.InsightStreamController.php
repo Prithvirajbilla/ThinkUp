@@ -109,14 +109,16 @@ class InsightStreamController extends ThinkUpController {
                 if ($owner_instance_dao->doesOwnerHaveAccessToInstance($owner, $instance)) {
                     $should_display_insight = true;
                 } else {
-                    $site_root_path = Config::getInstance()->getValue('site_root_path');
-                    $this->addErrorMessage("<a href='session/login.php?redirect=".$site_root_path.'?'.
-                        urlencode($_SERVER["QUERY_STRING"]).'\'>Log in</a> to see this insight.', null, true);
+                    $redirect_url = urlencode(Utils::getApplicationURL(). Utils::getApplicationRequestURI());
+                    $this->addToView('redirect_url', $redirect_url);
+                    $this->addErrorMessage("<a href='session/login.php?redirect=".$redirect_url.
+                        '\'>Log in</a> to see this insight.', null, true);
                 }
             } else  {
-                $site_root_path = Config::getInstance()->getValue('site_root_path');
-                $this->addErrorMessage("<a href='session/login.php?redirect=".$site_root_path.'?'.
-                    urlencode($_SERVER["QUERY_STRING"]).'\'>Log in</a> to see this insight.', null, true);
+                $redirect_url = urlencode(Utils::getApplicationURL(). Utils::getApplicationRequestURI());
+                $this->addToView('redirect_url', $redirect_url);
+                $this->addErrorMessage("<a href='session/login.php?redirect=".$redirect_url.
+                    '\'>Log in</a> to see this insight.', null, true);
             }
         } else {
             $this->addErrorMessage(stripslashes($_GET["u"])." on ".ucfirst($_GET['n']) ." is not in ThinkUp.");
